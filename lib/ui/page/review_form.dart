@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/review_provider.dart';
-import '../../utils/result_state.dart';
+import '../../utils/api_result.dart';
+
 class ReviewForm extends StatefulWidget {
   final String restaurantId;
   final String restaurantName;
@@ -13,6 +14,7 @@ class ReviewForm extends StatefulWidget {
   @override
   State<ReviewForm> createState() => _ReviewFormState();
 }
+
 class _ReviewFormState extends State<ReviewForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
@@ -25,12 +27,14 @@ class _ReviewFormState extends State<ReviewForm> {
       Provider.of<ReviewProvider>(context, listen: false).resetState();
     });
   }
+
   @override
   void dispose() {
     _nameController.dispose();
     _reviewController.dispose();
     super.dispose();
   }
+
   void _submitReview() async {
     if (_formKey.currentState!.validate()) {
       await Provider.of<ReviewProvider>(context, listen: false).addReview(
@@ -38,23 +42,21 @@ class _ReviewFormState extends State<ReviewForm> {
         _nameController.text,
         _reviewController.text,
       );
-      
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Review'),
-      ),
+      appBar: AppBar(title: const Text('Add Review')),
       body: Consumer<ReviewProvider>(
         builder: (context, provider, child) {
-          if (provider.result.state == ResultState.hasData && !_hasNavigatedBack) {
+          if (provider.result.isSuccess && !_hasNavigatedBack) {
             WidgetsBinding.instance.addPostFrameCallback((_) async {
               _hasNavigatedBack = true;
-              
+
               provider.resetState();
-              
+
               Navigator.pop(context, true);
             });
           }
@@ -110,7 +112,7 @@ class _ReviewFormState extends State<ReviewForm> {
                     enabled: !provider.isSubmitting,
                   ),
                   const SizedBox(height: 24),
-                  if (provider.result.state == ResultState.error) ...[
+                  if (provider.result.isFailure) ...[
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),
@@ -125,7 +127,7 @@ class _ReviewFormState extends State<ReviewForm> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              provider.result.message,
+                              provider.result.errorOrNull ?? 'Unknown error',
                               style: TextStyle(color: Colors.red.shade700),
                             ),
                           ),
@@ -147,7 +149,9 @@ class _ReviewFormState extends State<ReviewForm> {
                                   width: 20,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 8),

@@ -2,60 +2,51 @@ import 'package:flutter/foundation.dart';
 import '../data/api/api_service.dart';
 import '../data/model/restaurant_detail.dart';
 import '../data/model/review.dart';
-import '../utils/result_state.dart';
 import '../utils/api_result.dart';
 import '../utils/api_operations.dart';
 
 class DetailProvider extends ChangeNotifier {
   final ApiService _apiService = ApiService();
-  Result<RestaurantDetail> _restaurantDetailResult = Result.loading();
-
-  Result<RestaurantDetail> get result => _restaurantDetailResult;
-
+  ApiResult<RestaurantDetail> _restaurantDetailResult = const ApiLoading();
+  ApiResult<RestaurantDetail> get result => _restaurantDetailResult;
   Future<void> fetchRestaurantDetail(String id) async {
     try {
-      // Set loading state
-      _restaurantDetailResult = Result.loading();
+      _restaurantDetailResult = const ApiLoading();
       notifyListeners();
-
-      // Buat operasi dengan sealed class
       final operation = GetRestaurantDetail(id);
-
-      // Panggil API dengan sealed class
-      final apiResult = await _apiService.callApi<RestaurantDetailResponse>(operation);
-
+      final apiResult = await _apiService.callApi<RestaurantDetailResponse>(
+        operation,
+      );
       _restaurantDetailResult = switch (apiResult) {
-        // Kalau masih loading
-        ApiLoading<RestaurantDetailResponse>() => Result.loading(),
-        
-        // Kalau berhasil dapat data
-        ApiSuccess<RestaurantDetailResponse>(:final data) => 
-          data.error ? Result.error(message: data.message) : Result.hasData(data.restaurant),
-          
-        // Kalau ada error/gagal
-        ApiFailure<RestaurantDetailResponse>(:final message) => 
-          Result.error(message: message),
-          
-        // Kalau data kosong
-        ApiEmpty<RestaurantDetailResponse>(:final message) => 
-          Result.error(message: message),
+        ApiLoading<RestaurantDetailResponse>() => const ApiLoading(),
+
+        ApiSuccess<RestaurantDetailResponse>(:final data) =>
+          data.error
+              ? ApiFailure(message: data.message)
+              : ApiSuccess(data: data.restaurant),
+
+        ApiFailure<RestaurantDetailResponse>(:final message) => ApiFailure(
+          message: message,
+        ),
+
+        ApiEmpty<RestaurantDetailResponse>(:final message) => ApiFailure(
+          message: message,
+        ),
       };
-      
     } catch (e) {
-      // Handle exception
-      _restaurantDetailResult = Result.error(message: 'Error: ${e.toString()}');
+      _restaurantDetailResult = const ApiFailure(
+        message:
+            'Terjadi kesalahan saat mengambil detail restaurant. Silakan coba lagi.',
+      );
     }
-    
-    // Beritahu listener bahwa state sudah berubah
+
     notifyListeners();
   }
 
   void updateReviewsLocally(List<CustomerReview> newReviews) {
-    // Cek apakah state saat ini punya data
-    if (_restaurantDetailResult.state == ResultState.hasData) {
-      final currentRestaurant = _restaurantDetailResult.data!;
-      
-      // Buat restaurant baru dengan review yang sudah diupdate
+    if (_restaurantDetailResult.isSuccess) {
+      final currentRestaurant = _restaurantDetailResult.dataOrNull!;
+
       final updatedRestaurant = RestaurantDetail(
         id: currentRestaurant.id,
         name: currentRestaurant.name,
@@ -68,16 +59,13 @@ class DetailProvider extends ChangeNotifier {
         menus: currentRestaurant.menus,
         customerReviews: newReviews,
       );
-      
-      // Update state dengan data baru
-      _restaurantDetailResult = Result.hasData(updatedRestaurant);
+
+      _restaurantDetailResult = ApiSuccess(data: updatedRestaurant);
       notifyListeners();
     }
   }
 
-  // Force refresh dengan delay untuk memastikan server sudah terupdate
   Future<void> forceRefreshWithDelay(String id) async {
-    // Tunggu sebentar agar server memproses
     await Future.delayed(const Duration(milliseconds: 1500));
     await fetchRestaurantDetail(id);
   }

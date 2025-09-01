@@ -18,11 +18,7 @@ class CustomerReview {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'review': review,
-      'date': date,
-    };
+    return {'name': name, 'review': review, 'date': date};
   }
 }
 
@@ -31,18 +27,10 @@ class ReviewRequest {
   final String name;
   final String review;
 
-  ReviewRequest({
-    required this.id,
-    required this.name,
-    required this.review,
-  });
+  ReviewRequest({required this.id, required this.name, required this.review});
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'review': review,
-    };
+    return {'id': id, 'name': name, 'review': review};
   }
 }
 
@@ -61,7 +49,8 @@ class ReviewResponse {
     return ReviewResponse(
       error: json['error'] ?? false,
       message: json['message'] ?? '',
-      customerReviews: (json['customerReviews'] as List<dynamic>?)
+      customerReviews:
+          (json['customerReviews'] as List<dynamic>?)
               ?.map((e) => CustomerReview.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],

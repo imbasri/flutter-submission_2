@@ -34,13 +34,15 @@ class RestaurantDetail {
       city: json['city'] ?? '',
       address: json['address'] ?? '',
       pictureId: json['pictureId'] ?? '',
-      categories: (json['categories'] as List<dynamic>?)
+      categories:
+          (json['categories'] as List<dynamic>?)
               ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       menus: Menus.fromJson(json['menus'] ?? {}),
       rating: (json['rating'] ?? 0).toDouble(),
-      customerReviews: (json['customerReviews'] as List<dynamic>?)
+      customerReviews:
+          (json['customerReviews'] as List<dynamic>?)
               ?.map((e) => CustomerReview.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -89,11 +91,13 @@ class Menus {
 
   factory Menus.fromJson(Map<String, dynamic> json) {
     return Menus(
-      foods: (json['foods'] as List<dynamic>?)
+      foods:
+          (json['foods'] as List<dynamic>?)
               ?.map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      drinks: (json['drinks'] as List<dynamic>?)
+      drinks:
+          (json['drinks'] as List<dynamic>?)
               ?.map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],

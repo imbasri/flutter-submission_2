@@ -4,11 +4,7 @@ class ErrorMessage extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
 
-  const ErrorMessage({
-    super.key,
-    required this.message,
-    this.onRetry,
-  });
+  const ErrorMessage({super.key, required this.message, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +14,13 @@ class ErrorMessage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
             Text(
               'Oops!',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: Colors.red,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(color: Colors.red),
             ),
             const SizedBox(height: 8),
             Text(

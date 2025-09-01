@@ -10,28 +10,216 @@ class AppTheme {
   static const Color lightBackgroundColor = Color(0xFFF5F5F5);
   static const Color lightSurfaceColor = Colors.white;
   static const Color lightErrorColor = Color(0xFFE53935);
-  
+
   static const Color darkPrimaryColor = Color(0xFF0D47A1);
   static const Color darkSecondaryColor = Color(0xFF1E88E5);
   static const Color darkAccentColor = Color(0xFFFF8F00);
   static const Color darkBackgroundColor = Color(0xFF121212);
   static const Color darkSurfaceColor = Color(0xFF1E1E1E);
   static const Color darkErrorColor = Color(0xFFEF5350);
-  
+
   static const Color lightTextPrimary = Color(0xFF212121);
   static const Color lightTextSecondary = Color(0xFF757575);
   static const Color lightTextHint = Color(0xFF9E9E9E);
-  
+
   static const Color darkTextPrimary = Color(0xFFE0E0E0);
   static const Color darkTextSecondary = Color(0xFFBDBDBD);
   static const Color darkTextHint = Color(0xFF757575);
 
-  static const String fontFamily = 'Roboto';
+  static const String titleFontFamily = 'OrangeJuice';
+  static const String bodyFontFamily = 'Lato';
+
+  static TextTheme get _lightTextTheme => TextTheme(
+    displayLarge: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 57,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    displayMedium: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 45,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    displaySmall: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 36,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    headlineLarge: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 32,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    headlineMedium: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 28,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    headlineSmall: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    titleLarge: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 22,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    titleMedium: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: lightTextPrimary,
+    ),
+    titleSmall: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: lightTextPrimary,
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    bodyMedium: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    bodySmall: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      color: lightTextSecondary,
+    ),
+    labelLarge: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: lightTextPrimary,
+    ),
+    labelMedium: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      color: lightTextPrimary,
+    ),
+    labelSmall: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 11,
+      fontWeight: FontWeight.w400,
+      color: lightTextSecondary,
+    ),
+  );
+
+  static TextTheme get _darkTextTheme => TextTheme(
+    displayLarge: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 57,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    displayMedium: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 45,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    displaySmall: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 36,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    headlineLarge: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 32,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    headlineMedium: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 28,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    headlineSmall: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    titleLarge: TextStyle(
+      fontFamily: titleFontFamily,
+      fontSize: 22,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    titleMedium: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: darkTextPrimary,
+    ),
+    titleSmall: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: darkTextPrimary,
+    ),
+    bodyLarge: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    bodyMedium: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    bodySmall: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      color: darkTextSecondary,
+    ),
+    labelLarge: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: darkTextPrimary,
+    ),
+    labelMedium: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      color: darkTextPrimary,
+    ),
+    labelSmall: TextStyle(
+      fontFamily: bodyFontFamily,
+      fontSize: 11,
+      fontWeight: FontWeight.w400,
+      color: darkTextSecondary,
+    ),
+  );
 
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: fontFamily,
+      fontFamily: bodyFontFamily,
+      textTheme: _lightTextTheme,
       colorScheme: ColorScheme.fromSeed(
         seedColor: lightPrimaryColor,
         brightness: Brightness.light,
@@ -49,105 +237,52 @@ class AppTheme {
         backgroundColor: lightPrimaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
+        titleTextStyle: TextStyle(
+          fontFamily: titleFontFamily,
+          fontSize: 20,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+        ),
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        titleTextStyle: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-          fontFamily: fontFamily,
-        ),
       ),
       cardTheme: CardThemeData(
-        color: lightSurfaceColor,
         elevation: 2,
-        shadowColor: Colors.black26,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        color: lightSurfaceColor,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: lightPrimaryColor,
           foregroundColor: Colors.white,
-          elevation: 3,
-          shadowColor: lightPrimaryColor.withOpacity(0.3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           textStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontFamily: fontFamily,
+            fontFamily: bodyFontFamily,
+            fontWeight: FontWeight.w700,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: lightPrimaryColor,
+          textStyle: TextStyle(
+            fontFamily: bodyFontFamily,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: lightPrimaryColor, width: 2),
-        ),
-        filled: true,
-        fillColor: lightSurfaceColor,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      ),
-      textTheme: TextTheme(
-        headlineLarge: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: lightTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-          color: lightTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        titleLarge: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: lightTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w500,
-          color: lightTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 16,
-          color: lightTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
+        labelStyle: TextStyle(
+          fontFamily: bodyFontFamily,
           color: lightTextSecondary,
-          fontFamily: fontFamily,
         ),
-        bodySmall: TextStyle(
-          fontSize: 12,
-          color: lightTextHint,
-          fontFamily: fontFamily,
-        ),
-      ),
-      iconTheme: const IconThemeData(
-        color: lightTextSecondary,
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: lightAccentColor,
-        foregroundColor: Colors.white,
-        elevation: 4,
+        hintStyle: TextStyle(fontFamily: bodyFontFamily, color: lightTextHint),
       ),
     );
   }
@@ -155,7 +290,8 @@ class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: fontFamily,
+      fontFamily: bodyFontFamily,
+      textTheme: _darkTextTheme,
       colorScheme: ColorScheme.fromSeed(
         seedColor: darkPrimaryColor,
         brightness: Brightness.dark,
@@ -173,105 +309,52 @@ class AppTheme {
         backgroundColor: darkSurfaceColor,
         foregroundColor: darkTextPrimary,
         elevation: 0,
+        titleTextStyle: TextStyle(
+          fontFamily: titleFontFamily,
+          fontSize: 20,
+          fontWeight: FontWeight.w400,
+          color: darkTextPrimary,
+        ),
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        titleTextStyle: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: darkTextPrimary,
-          fontFamily: fontFamily,
-        ),
       ),
       cardTheme: CardThemeData(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: darkSurfaceColor,
-        elevation: 4,
-        shadowColor: Colors.black54,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: darkPrimaryColor,
           foregroundColor: Colors.white,
-          elevation: 3,
-          shadowColor: darkPrimaryColor.withOpacity(0.3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           textStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontFamily: fontFamily,
+            fontFamily: bodyFontFamily,
+            fontWeight: FontWeight.w700,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: darkSecondaryColor,
+          textStyle: TextStyle(
+            fontFamily: bodyFontFamily,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF424242)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF424242)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: darkPrimaryColor, width: 2),
-        ),
-        filled: true,
-        fillColor: darkSurfaceColor,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      ),
-      textTheme: TextTheme(
-        headlineLarge: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: darkTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-          color: darkTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        titleLarge: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: darkTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w500,
-          color: darkTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 16,
-          color: darkTextPrimary,
-          fontFamily: fontFamily,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
+        labelStyle: TextStyle(
+          fontFamily: bodyFontFamily,
           color: darkTextSecondary,
-          fontFamily: fontFamily,
         ),
-        bodySmall: TextStyle(
-          fontSize: 12,
-          color: darkTextHint,
-          fontFamily: fontFamily,
-        ),
-      ),
-      iconTheme: const IconThemeData(
-        color: darkTextSecondary,
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: darkAccentColor,
-        foregroundColor: Colors.white,
-        elevation: 4,
+        hintStyle: TextStyle(fontFamily: bodyFontFamily, color: darkTextHint),
       ),
     );
   }

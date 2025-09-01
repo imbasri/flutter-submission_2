@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../utils/api_result.dart';
+
 class ApiResultBuilder<T> extends StatelessWidget {
   final ApiResult<T> result;
   final Widget Function(T data) onSuccess;
@@ -85,6 +86,7 @@ class ApiResultBuilder<T> extends StatelessWidget {
     };
   }
 }
+
 class ApiRefreshButton<T> extends StatelessWidget {
   final ApiResult<T> result;
   final VoidCallback onRefresh;
@@ -113,6 +115,7 @@ class ApiRefreshButton<T> extends StatelessWidget {
     );
   }
 }
+
 class ApiStatusIndicator<T> extends StatelessWidget {
   final ApiResult<T> result;
   final bool showCount;

@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
             title: 'Restaurant App',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: themeProvider.isDarkMode 
-                ? ThemeMode.dark 
+            themeMode: themeProvider.isDarkMode
+                ? ThemeMode.dark
                 : ThemeMode.light,
             home: const HomePage(),
             debugShowCheckedModeBanner: false,

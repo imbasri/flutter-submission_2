@@ -3,15 +3,17 @@ import 'package:provider/provider.dart';
 import '../../provider/detail_provider.dart';
 import '../../provider/review_provider.dart';
 import '../../static/constant_data.dart';
-import '../../utils/result_state.dart';
+import '../../utils/api_result.dart';
 import '../widget/review_list.dart';
 import 'review_form.dart';
+
 class DetailPage extends StatefulWidget {
   final String restaurantId;
   const DetailPage({super.key, required this.restaurantId});
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
+
 class _DetailPageState extends State<DetailPage> {
   OverlayEntry? _overlayEntry;
   @override
@@ -21,15 +23,18 @@ class _DetailPageState extends State<DetailPage> {
       context.read<DetailProvider>().fetchRestaurantDetail(widget.restaurantId);
     });
   }
+
   @override
   void dispose() {
     _removeOverlay();
     super.dispose();
   }
+
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
+
   void _showTopSnackBar(BuildContext context, bool isWeb) {
     _removeOverlay();
     _overlayEntry = OverlayEntry(
@@ -100,6 +105,7 @@ class _DetailPageState extends State<DetailPage> {
       _removeOverlay();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,32 +114,29 @@ class _DetailPageState extends State<DetailPage> {
           final isWeb = constraints.maxWidth > 800;
           return Consumer<DetailProvider>(
             builder: (context, provider, child) {
-              switch (provider.result.state) {
-                case ResultState.loading:
-                  return const Center(child: CircularProgressIndicator());
-                case ResultState.error:
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.error, size: 80, color: Colors.red),
-                        const SizedBox(height: 16),
-                        Text(provider.result.message),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () => provider.fetchRestaurantDetail(
-                            widget.restaurantId,
-                          ),
-                          child: const Text('Retry'),
-                        ),
-                      ],
-                    ),
-                  );
-                case ResultState.hasData:
-                  return _buildDetailContent(context, provider, isWeb);
-                case ResultState.noData:
-                  return const Center(child: Text('No data'));
-              }
+              return switch (provider.result) {
+                ApiLoading() => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                ApiFailure(:final message) => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error, size: 80, color: Colors.red),
+                      const SizedBox(height: 16),
+                      Text(message),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () =>
+                            provider.fetchRestaurantDetail(widget.restaurantId),
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                ),
+                ApiSuccess() => _buildDetailContent(context, provider, isWeb),
+                ApiEmpty() => const Center(child: Text('No data')),
+              };
             },
           );
         },
@@ -155,12 +158,13 @@ class _DetailPageState extends State<DetailPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
+
   Widget _buildDetailContent(
     BuildContext context,
     DetailProvider provider,
     bool isWeb,
   ) {
-    final restaurant = provider.result.data!;
+    final restaurant = provider.result.dataOrNull!;
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
@@ -235,19 +239,22 @@ class _DetailPageState extends State<DetailPage> {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    ConstantData.getLargeImageUrl(restaurant.pictureId),
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[300],
-                        child: const Icon(
-                          Icons.error,
-                          size: 50,
-                          color: Colors.grey,
-                        ),
-                      );
-                    },
+                  Hero(
+                    tag: 'restaurant-image-${restaurant.id}',
+                    child: Image.network(
+                      ConstantData.getLargeImageUrl(restaurant.pictureId),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: const Icon(
+                            Icons.error,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   Container(
                     decoration: const BoxDecoration(
@@ -427,10 +434,9 @@ class _DetailPageState extends State<DetailPage> {
                                           .read<ReviewProvider>();
                                       final detailProvider = context
                                           .read<DetailProvider>();
-                                      if (reviewProvider.result.state ==
-                                          ResultState.hasData) {
+                                      if (reviewProvider.result.isSuccess) {
                                         detailProvider.updateReviewsLocally(
-                                          reviewProvider.result.data!,
+                                          reviewProvider.result.dataOrNull!,
                                         );
                                       }
                                       detailProvider.forceRefreshWithDelay(

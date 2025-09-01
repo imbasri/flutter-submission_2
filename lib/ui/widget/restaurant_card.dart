@@ -5,11 +5,7 @@ class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
   final VoidCallback? onTap;
 
-  const RestaurantCard({
-    super.key,
-    required this.restaurant,
-    this.onTap,
-  });
+  const RestaurantCard({super.key, required this.restaurant, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +18,9 @@ class RestaurantCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
               child: Hero(
                 tag: 'restaurant-image-${restaurant.id}',
                 child: Image.network(
@@ -48,9 +46,7 @@ class RestaurantCard extends StatelessWidget {
                       height: 120,
                       width: double.infinity,
                       color: Colors.grey[300],
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      child: const Center(child: CircularProgressIndicator()),
                     );
                   },
                 ),
@@ -86,26 +82,23 @@ class RestaurantCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             restaurant.city,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontSize: 10,
-                            ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall?.copyWith(fontSize: 10),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(
-                          Icons.star,
-                          size: 11,
-                          color: Colors.amber,
-                        ),
+                        const Icon(Icons.star, size: 11, color: Colors.amber),
                         const SizedBox(width: 2),
                         Text(
                           restaurant.rating.toString(),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 10,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10,
+                              ),
                         ),
                       ],
                     ),
