@@ -8,6 +8,7 @@ import '../widget/error_message.dart';
 import '../widget/restaurant_card.dart';
 import 'detail_page.dart';
 import 'search_page.dart';
+import 'favorites_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -47,6 +48,16 @@ class _HomePageState extends State<HomePage> {
                     : 'Switch to Dark Mode',
               );
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FavoritesPage()),
+              );
+            },
+            tooltip: 'Restoran Favorit',
           ),
           IconButton(
             icon: const Icon(Icons.search),

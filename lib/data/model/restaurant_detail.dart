@@ -1,4 +1,5 @@
 import 'review.dart';
+import 'restaurant.dart';
 import '../../static/constant_data.dart';
 
 class RestaurantDetail {
@@ -66,6 +67,18 @@ class RestaurantDetail {
   }
 
   String get pictureUrl => ConstantData.getMediumImageUrl(pictureId);
+
+  // Convert RestaurantDetail to Restaurant for favorites
+  Restaurant toRestaurant() {
+    return Restaurant(
+      id: id,
+      name: name,
+      description: description,
+      pictureId: pictureId,
+      city: city,
+      rating: rating,
+    );
+  }
 }
 
 class Category {

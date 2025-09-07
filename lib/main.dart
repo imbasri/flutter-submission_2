@@ -5,6 +5,7 @@ import 'provider/detail_provider.dart';
 import 'provider/search_provider.dart';
 import 'provider/review_provider.dart';
 import 'provider/theme_provider.dart';
+import 'provider/favorites_provider.dart';
 import 'ui/page/home_page.dart';
 import 'utils/theme.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SearchProvider()),
         ChangeNotifierProvider(create: (_) => ReviewProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
