@@ -6,10 +6,17 @@ import 'provider/search_provider.dart';
 import 'provider/review_provider.dart';
 import 'provider/theme_provider.dart';
 import 'provider/favorites_provider.dart';
+import 'provider/reminder_provider.dart';
+import 'services/notification_service.dart';
 import 'ui/page/home_page.dart';
 import 'utils/theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize notification service
+  await NotificationService().initialize();
+  
   runApp(const MyApp());
 }
 
@@ -26,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ReviewProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => FavoritesProvider()),
+        ChangeNotifierProvider(create: (_) => ReminderProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

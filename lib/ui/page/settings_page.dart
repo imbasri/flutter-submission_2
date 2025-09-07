@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/theme_provider.dart';
+import '../../provider/reminder_provider.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +26,9 @@ class SettingsPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
-          if (!themeProvider.isInitialized) {
+      body: Consumer2<ThemeProvider, ReminderProvider>(
+        builder: (context, themeProvider, reminderProvider, child) {
+          if (!themeProvider.isInitialized || !reminderProvider.isInitialized) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -165,6 +172,182 @@ class SettingsPage extends StatelessWidget {
                           behavior: SnackBarBehavior.floating,
                         ),
                       );
+                    },
+                  ),
+                ),
+                
+                const SizedBox(height: 30),
+                
+                // Daily Reminder Section
+                Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.alarm,
+                              color: Theme.of(context).primaryColor,
+                              size: 24,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              'Daily Reminder',
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Lato',
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Terima notifikasi pengingat makan siang setiap hari pukul 11:00',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).textTheme.bodySmall?.color,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        
+                        // Reminder Toggle
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: reminderProvider.isReminderEnabled 
+                                  ? Theme.of(context).primaryColor 
+                                  : Theme.of(context).dividerColor,
+                              width: reminderProvider.isReminderEnabled ? 2 : 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: SwitchListTile(
+                            secondary: Icon(
+                              reminderProvider.isReminderEnabled 
+                                  ? Icons.notifications_active 
+                                  : Icons.notifications_off,
+                              color: reminderProvider.isReminderEnabled 
+                                  ? Theme.of(context).primaryColor 
+                                  : Theme.of(context).iconTheme.color,
+                            ),
+                            title: Text(
+                              'Pengingat Harian',
+                              style: TextStyle(
+                                fontWeight: reminderProvider.isReminderEnabled 
+                                    ? FontWeight.bold 
+                                    : FontWeight.normal,
+                                fontFamily: 'Lato',
+                              ),
+                            ),
+                            subtitle: Text(reminderProvider.reminderStatusText),
+                            value: reminderProvider.isReminderEnabled,
+                            onChanged: (bool value) async {
+                              await reminderProvider.setReminderEnabled(value);
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      value 
+                                          ? 'Daily reminder diaktifkan! Notifikasi akan muncul setiap hari pukul 11:00' 
+                                          : 'Daily reminder dinonaktifkan',
+                                    ),
+                                    duration: const Duration(seconds: 3),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                const SizedBox(height: 20),
+                
+                // Reminder Info
+                if (reminderProvider.isReminderEnabled) ...[
+                  Card(
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.schedule,
+                            color: Theme.of(context).primaryColor,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Pengingat Berikutnya',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  reminderProvider.nextReminderText,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 20),
+                ],
+                
+                // Test Notification
+                Card(
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.notifications_active,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    title: const Text(
+                      'Test Notifikasi',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    subtitle: const Text('Kirim notifikasi test untuk memastikan fitur berfungsi'),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                      color: Theme.of(context).textTheme.bodySmall?.color,
+                    ),
+                    onTap: () async {
+                      await reminderProvider.testNotification();
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Test notifikasi dikirim!'),
+                            duration: Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),
