@@ -29,6 +29,20 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
+          // Show loading screen while theme is being initialized
+          if (!themeProvider.isInitialized) {
+            return MaterialApp(
+              title: 'Restaurant App',
+              theme: AppTheme.lightTheme,
+              home: const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              debugShowCheckedModeBanner: false,
+            );
+          }
+
           return MaterialApp(
             title: 'Restaurant App',
             theme: AppTheme.lightTheme,
