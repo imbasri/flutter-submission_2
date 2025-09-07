@@ -5,8 +5,11 @@ import '../utils/api_result.dart';
 import '../utils/api_operations.dart';
 
 class RestaurantProvider extends ChangeNotifier {
-  final ApiService _apiService = ApiService();
+  final ApiService _apiService;
   ApiResult<List<Restaurant>> _restaurantResult = const ApiLoading();
+
+  // Constructor with optional injected ApiService for testing
+  RestaurantProvider({ApiService? apiService}) : _apiService = apiService ?? ApiService();
 
   ApiResult<List<Restaurant>> get result => _restaurantResult;
   Future<void> fetchRestaurants() async {
