@@ -44,6 +44,11 @@ dependencies:
   # Local storage (cross-platform)
   shared_preferences: ^2.2.2
   
+  # SQLite database
+  sqflite: ^2.3.0
+  sqflite_common_ffi: ^2.3.0
+  path: ^1.8.3
+  
   # Local notifications
   flutter_local_notifications: ^17.2.2
   timezone: ^0.9.4
