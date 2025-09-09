@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workmanager/workmanager.dart';
 import 'provider/restaurant_provider.dart';
 import 'provider/detail_provider.dart';
 import 'provider/search_provider.dart';
@@ -13,6 +14,9 @@ import 'utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Workmanager
+  await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
   
   // Initialize notification service
   await NotificationService().initialize();

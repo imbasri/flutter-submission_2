@@ -49,9 +49,10 @@ dependencies:
   sqflite_common_ffi: ^2.3.0
   path: ^1.8.3
   
-  # Local notifications
+  # Local notifications and background tasks
   flutter_local_notifications: ^17.2.2
   timezone: ^0.9.4
+  workmanager: ^0.6.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,8 @@ dev_dependencies:
   # Testing dependencies
   mockito: ^5.4.4
   build_runner: ^2.4.9
+  integration_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
