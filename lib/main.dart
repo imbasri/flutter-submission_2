@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
@@ -15,10 +16,12 @@ import 'utils/theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Workmanager
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+  // Inisialisasi Workmanager untuk notifikasi latar belakang (hanya untuk mobile)
+  if (!kIsWeb) {
+    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+  }
   
-  // Initialize notification service
+  // Inisialisasi layanan notifikasi
   await NotificationService().initialize();
   
   runApp(const MyApp());

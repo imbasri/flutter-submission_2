@@ -6,11 +6,13 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/restaurant.dart';
 
+// Helper class untuk mengelola database SQLite restoran favorit
 class DatabaseHelper {
   static const String _databaseName = 'restaurant_database.db';
   static const int _databaseVersion = 1;
   static const String _favoritesKey = 'favorite_restaurants';
   
+  // Definisi tabel dan kolom
   static const String tableFavorites = 'favorites';
   static const String columnId = 'id';
   static const String columnName = 'name';

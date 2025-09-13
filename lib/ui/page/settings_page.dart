@@ -39,7 +39,6 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Theme Section
                 Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(
@@ -76,7 +75,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         const SizedBox(height: 20),
                         
-                        // Light Theme Option
                         _buildThemeOption(
                           context: context,
                           themeProvider: themeProvider,
@@ -89,7 +87,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         
                         const SizedBox(height: 12),
                         
-                        // Dark Theme Option
                         _buildThemeOption(
                           context: context,
                           themeProvider: themeProvider,
@@ -106,7 +103,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 
                 const SizedBox(height: 20),
                 
-                // Current Theme Info
                 Card(
                   elevation: 1,
                   shape: RoundedRectangleBorder(
@@ -137,7 +133,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 
                 const SizedBox(height: 20),
                 
-                // Quick Toggle
                 Card(
                   elevation: 1,
                   shape: RoundedRectangleBorder(
@@ -178,7 +173,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 
                 const SizedBox(height: 30),
                 
-                // Daily Reminder Section
                 Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(
@@ -215,7 +209,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         const SizedBox(height: 20),
                         
-                        // Reminder Toggle
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -271,7 +264,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 
                 const SizedBox(height: 20),
                 
-                // Reminder Info
                 if (reminderProvider.isReminderEnabled) ...[
                   Card(
                     elevation: 1,
@@ -313,7 +305,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   const SizedBox(height: 20),
                 ],
                 
-                // Test Notification
                 Card(
                   elevation: 1,
                   shape: RoundedRectangleBorder(

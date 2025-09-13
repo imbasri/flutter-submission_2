@@ -8,7 +8,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:http/http.dart' as http;
 import '../data/model/restaurant.dart';
 
-// Callback dispatcher for Workmanager
+// Callback dispatcher untuk Workmanager
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
@@ -26,7 +26,7 @@ void callbackDispatcher() {
   });
 }
 
-// Background task execution
+// Eksekusi tugas latar belakang
 Future<void> _executeNotificationTask() async {
   final service = NotificationService();
   await service._initializeForBackground();
@@ -48,10 +48,10 @@ class NotificationService {
   static const String dailyReminderTask = 'dailyReminderTask';
 
   Future<void> initialize() async {
-    // Initialize timezone data
+    // Inisialisasi data timezone
     tz.initializeTimeZones();
     
-    // Initialize Workmanager for background tasks
+    // Inisialisasi Workmanager untuk tugas latar belakang
     if (!kIsWeb) {
       await Workmanager().initialize(
         callbackDispatcher,
@@ -59,11 +59,11 @@ class NotificationService {
       );
     }
     
-    // Android initialization settings
+    // Pengaturan inisialisasi Android
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    // iOS initialization settings
+    // Pengaturan inisialisasi iOS
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -71,7 +71,7 @@ class NotificationService {
       requestSoundPermission: true,
     );
 
-    // Initialize plugin
+    // Inisialisasi plugin
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
@@ -83,7 +83,7 @@ class NotificationService {
       onDidReceiveNotificationResponse: _onNotificationTapped,
     );
 
-    // Request permissions for Android 13+
+    // Minta izin untuk Android 13+
     if (!kIsWeb) {
       await _requestPermissions();
     }
@@ -113,11 +113,11 @@ class NotificationService {
   }
 
   void _onNotificationTapped(NotificationResponse response) {
-    // Handle notification tap
+    // Tangani ketukan notifikasi
     debugPrint('Notification tapped: ${response.payload}');
   }
 
-  // Background initialization for Workmanager tasks
+  // Inisialisasi latar belakang untuk tugas Workmanager
   Future<void> _initializeForBackground() async {
     if (kIsWeb) {
       return;
@@ -146,15 +146,15 @@ class NotificationService {
 
   Future<void> scheduleDailyReminder() async {
     if (kIsWeb) {
-      // Web doesn't support local notifications
+      // Web tidak mendukung notifikasi lokal
       debugPrint('Local notifications not supported on web');
       return;
     }
 
-    // Cancel existing tasks
+    // Batalkan tugas yang sudah ada
     await cancelDailyReminder();
 
-    // Schedule with Workmanager for background execution
+    // Jadwalkan dengan Workmanager untuk eksekusi latar belakang
     await Workmanager().registerPeriodicTask(
       dailyReminderTask,
       dailyReminderTask,

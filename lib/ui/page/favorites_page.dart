@@ -117,8 +117,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             ),
                           ),
                         ).then((_) {
-                          // Refresh favorites when returning from detail page
-                          // in case user removed from favorites
                           favoritesProvider.loadFavorites();
                         });
                       },

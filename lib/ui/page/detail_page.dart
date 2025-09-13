@@ -30,7 +30,6 @@ class _DetailPageState extends State<DetailPage> {
     super.dispose();
   }
 
-  // Helper method for rating color
   Color _getRatingColor(double rating) {
     if (rating >= 4.5) return Colors.green;
     if (rating >= 4.0) return Colors.lightGreen;
@@ -38,8 +37,6 @@ class _DetailPageState extends State<DetailPage> {
     if (rating >= 3.0) return Colors.deepOrange;
     return Colors.red;
   }
-
-  // Helper method for rating text
   String _getRatingText(double rating) {
     if (rating >= 4.5) return 'Excellent';
     if (rating >= 4.0) return 'Very Good';

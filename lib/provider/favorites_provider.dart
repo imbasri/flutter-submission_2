@@ -15,19 +15,16 @@ class FavoritesProvider extends ChangeNotifier {
   FavoritesState _state = FavoritesState.loading;
   String _message = '';
   
-  // Track favorite status for each restaurant
   final Map<String, bool> _favoriteStatus = {};
 
   List<Restaurant> get favorites => _favorites;
   FavoritesState get state => _state;
   String get message => _message;
 
-  // Get favorite status for a specific restaurant
   bool isFavoriteSync(String restaurantId) {
     return _favoriteStatus[restaurantId] ?? false;
   }
 
-  // Load all favorites from database
   Future<void> loadFavorites() async {
     try {
       _state = FavoritesState.loading;
@@ -35,7 +32,7 @@ class FavoritesProvider extends ChangeNotifier {
 
       _favorites = await _databaseHelper.getAllFavorites();
       
-      // Update favorite status map
+      _favoriteStatus.clear();
       _favoriteStatus.clear();
       for (final restaurant in _favorites) {
         _favoriteStatus[restaurant.id] = true;
@@ -50,12 +47,11 @@ class FavoritesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Add restaurant to favorites
   Future<void> addToFavorites(Restaurant restaurant) async {
     try {
       await _databaseHelper.insertFavorite(restaurant);
       _favoriteStatus[restaurant.id] = true;
-      await loadFavorites(); // Reload to update UI
+      await loadFavorites();
     } catch (e) {
       _state = FavoritesState.error;
       _message = 'Gagal menambahkan ke favorit: ${e.toString()}';
@@ -63,12 +59,11 @@ class FavoritesProvider extends ChangeNotifier {
     }
   }
 
-  // Remove restaurant from favorites
   Future<void> removeFromFavorites(String restaurantId) async {
     try {
       await _databaseHelper.deleteFavorite(restaurantId);
       _favoriteStatus[restaurantId] = false;
-      await loadFavorites(); // Reload to update UI
+      await loadFavorites();
     } catch (e) {
       _state = FavoritesState.error;
       _message = 'Gagal menghapus dari favorit: ${e.toString()}';
@@ -76,7 +71,6 @@ class FavoritesProvider extends ChangeNotifier {
     }
   }
 
-  // Check if restaurant is in favorites (async)
   Future<bool> isFavorite(String restaurantId) async {
     try {
       final result = await _databaseHelper.isFavorite(restaurantId);
@@ -87,7 +81,6 @@ class FavoritesProvider extends ChangeNotifier {
     }
   }
 
-  // Toggle favorite status
   Future<void> toggleFavorite(Restaurant restaurant) async {
     final currentStatus = _favoriteStatus[restaurant.id] ?? false;
     
@@ -98,7 +91,6 @@ class FavoritesProvider extends ChangeNotifier {
     }
   }
 
-  // Initialize favorite status for a restaurant
   Future<void> checkFavoriteStatus(String restaurantId) async {
     if (!_favoriteStatus.containsKey(restaurantId)) {
       final result = await _databaseHelper.isFavorite(restaurantId);

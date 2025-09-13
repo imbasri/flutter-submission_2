@@ -198,7 +198,6 @@ class _HomePageState extends State<HomePage> {
     return Drawer(
       child: Column(
         children: [
-          // Drawer Header
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return DrawerHeader(
@@ -248,7 +247,6 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           
-          // Menu Items
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -327,7 +325,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           
-          // Footer
           Container(
             padding: const EdgeInsets.all(16),
             child: Text(
