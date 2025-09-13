@@ -10,7 +10,7 @@ class RestaurantDetail {
   final String address;
   final String pictureId;
   final List<Category> categories;
-  final Menus menus;
+  final Menu menus;
   final double rating;
   final List<CustomerReview> customerReviews;
 
@@ -40,7 +40,7 @@ class RestaurantDetail {
               ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      menus: Menus.fromJson(json['menus'] ?? {}),
+      menus: Menu.fromJson(json['menus'] ?? {}),
       rating: (json['rating'] ?? 0).toDouble(),
       customerReviews:
           (json['customerReviews'] as List<dynamic>?)
@@ -96,14 +96,14 @@ class Category {
   }
 }
 
-class Menus {
+class Menu {
   final List<MenuItem> foods;
   final List<MenuItem> drinks;
 
-  Menus({required this.foods, required this.drinks});
+  Menu({required this.foods, required this.drinks});
 
-  factory Menus.fromJson(Map<String, dynamic> json) {
-    return Menus(
+  factory Menu.fromJson(Map<String, dynamic> json) {
+    return Menu(
       foods:
           (json['foods'] as List<dynamic>?)
               ?.map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
@@ -117,7 +117,6 @@ class Menus {
     );
   }
 
-  // Convert Menus to JSON
   Map<String, dynamic> toJson() {
     return {
       'foods': foods.map((e) => e.toJson()).toList(),
