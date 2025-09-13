@@ -46,6 +46,9 @@ class NotificationService {
   static const String _channelDescription = 'Daily lunch reminder notifications';
   static const int _notificationId = 0;
   static const String dailyReminderTask = 'dailyReminderTask';
+  
+  // Store reminder time for scheduling
+  static TimeOfDay _reminderTime = const TimeOfDay(hour: 11, minute: 0);
 
   Future<void> initialize() async {
     // Inisialisasi data timezone
@@ -165,18 +168,22 @@ class NotificationService {
       ),
     );
 
-    debugPrint('Daily reminder scheduled with Workmanager for 11:00 AM');
+    debugPrint('Daily reminder scheduled with Workmanager for ${_reminderTime.hour}:${_reminderTime.minute.toString().padLeft(2, '0')}');
+  }
+
+  static void setReminderTime(TimeOfDay time) {
+    _reminderTime = time;
   }
 
   Duration _getInitialDelay() {
     final now = DateTime.now();
-    final scheduledTime = DateTime(now.year, now.month, now.day, 11, 0, 0);
+    final scheduledTime = DateTime(now.year, now.month, now.day, _reminderTime.hour, _reminderTime.minute, 0);
     
     if (scheduledTime.isBefore(now)) {
-      // If 11 AM has passed today, schedule for tomorrow
+      // If scheduled time has passed today, schedule for tomorrow
       return scheduledTime.add(const Duration(days: 1)).difference(now);
     } else {
-      // Schedule for today at 11 AM
+      // Schedule for today at the set time
       return scheduledTime.difference(now);
     }
   }

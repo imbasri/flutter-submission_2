@@ -202,7 +202,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Terima notifikasi pengingat makan siang setiap hari pukul 11:00',
+                          'Terima notifikasi pengingat makan siang setiap hari pada waktu yang ditentukan',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).textTheme.bodySmall?.color,
                           ),
@@ -246,7 +246,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   SnackBar(
                                     content: Text(
                                       value 
-                                          ? 'Daily reminder diaktifkan! Notifikasi akan muncul setiap hari pukul 11:00' 
+                                          ? 'Daily reminder diaktifkan! Notifikasi akan muncul setiap hari pukul ${reminderProvider.reminderTimeText}' 
                                           : 'Daily reminder dinonaktifkan',
                                     ),
                                     duration: const Duration(seconds: 3),
@@ -265,6 +265,57 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 20),
                 
                 if (reminderProvider.isReminderEnabled) ...[
+                  Card(
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.access_time,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      title: const Text(
+                        'Waktu Pengingat',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Lato',
+                        ),
+                      ),
+                      subtitle: Text('Pukul ${reminderProvider.reminderTimeText}'),
+                      trailing: Icon(
+                        Icons.edit,
+                        size: 16,
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                      ),
+                      onTap: () async {
+                        final TimeOfDay? picked = await showTimePicker(
+                          context: context,
+                          initialTime: reminderProvider.reminderTime,
+                          builder: (BuildContext context, Widget? child) {
+                            return MediaQuery(
+                              data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                              child: child!,
+                            );
+                          },
+                        );
+                        
+                        if (picked != null && mounted) {
+                          await reminderProvider.setReminderTime(picked);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Waktu pengingat diubah ke ${reminderProvider.reminderTimeText}'),
+                              duration: const Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 10),
+                  
                   Card(
                     elevation: 1,
                     shape: RoundedRectangleBorder(
