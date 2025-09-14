@@ -6,10 +6,10 @@ void main() {
     test('ApiSuccess should contain data', () {
       // Arrange
       const testData = 'test data';
-      
+
       // Act
       const result = ApiSuccess(data: testData);
-      
+
       // Assert
       expect(result.data, equals(testData));
       expect(result.isSuccess, isTrue);
@@ -22,10 +22,10 @@ void main() {
     test('ApiFailure should contain error message', () {
       // Arrange
       const errorMessage = 'Something went wrong';
-      
+
       // Act
       const result = ApiFailure<String>(message: errorMessage);
-      
+
       // Assert
       expect(result.message, equals(errorMessage));
       expect(result.isFailure, isTrue);
@@ -39,7 +39,7 @@ void main() {
     test('ApiLoading should have correct state', () {
       // Act
       const result = ApiLoading<String>();
-      
+
       // Assert
       expect(result.isLoading, isTrue);
       expect(result.isSuccess, isFalse);
@@ -51,10 +51,10 @@ void main() {
     test('ApiEmpty should contain empty message', () {
       // Arrange
       const emptyMessage = 'No data found';
-      
+
       // Act
       const result = ApiEmpty<String>(message: emptyMessage);
-      
+
       // Assert
       expect(result.message, equals(emptyMessage));
       expect(result.isEmpty, isTrue);
@@ -68,10 +68,12 @@ void main() {
     test('map function should transform data correctly', () {
       // Arrange
       const originalResult = ApiSuccess(data: 5);
-      
+
       // Act
-      final mappedResult = originalResult.map<String>((data) => 'Number: $data');
-      
+      final mappedResult = originalResult.map<String>(
+        (data) => 'Number: $data',
+      );
+
       // Assert
       expect(mappedResult, isA<ApiSuccess<String>>());
       expect(mappedResult.dataOrNull, equals('Number: 5'));
@@ -83,7 +85,7 @@ void main() {
       const successResult = ApiSuccess(data: 'success');
       const failureResult = ApiFailure<String>(message: 'error');
       const emptyResult = ApiEmpty<String>(message: 'empty');
-      
+
       // Act & Assert
       final loadingFold = loadingResult.fold(
         onLoading: () => 'loading',
@@ -92,7 +94,7 @@ void main() {
         onEmpty: (message) => 'empty: $message',
       );
       expect(loadingFold, equals('loading'));
-      
+
       final successFold = successResult.fold(
         onLoading: () => 'loading',
         onSuccess: (data) => 'success: $data',
@@ -100,7 +102,7 @@ void main() {
         onEmpty: (message) => 'empty: $message',
       );
       expect(successFold, equals('success: success'));
-      
+
       final failureFold = failureResult.fold(
         onLoading: () => 'loading',
         onSuccess: (data) => 'success: $data',
@@ -108,7 +110,7 @@ void main() {
         onEmpty: (message) => 'empty: $message',
       );
       expect(failureFold, equals('failure: error'));
-      
+
       final emptyFold = emptyResult.fold(
         onLoading: () => 'loading',
         onSuccess: (data) => 'success: $data',

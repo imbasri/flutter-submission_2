@@ -15,15 +15,15 @@ import 'utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Inisialisasi Workmanager untuk notifikasi latar belakang (hanya untuk mobile)
   if (!kIsWeb) {
     await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
   }
-  
+
   // Inisialisasi layanan notifikasi
   await NotificationService().initialize();
-  
+
   runApp(const MyApp());
 }
 
@@ -50,9 +50,7 @@ class MyApp extends StatelessWidget {
               title: 'Restaurant App',
               theme: AppTheme.lightTheme,
               home: const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
+                body: Center(child: CircularProgressIndicator()),
               ),
               debugShowCheckedModeBanner: false,
             );

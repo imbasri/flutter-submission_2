@@ -13,7 +13,7 @@ import 'restaurant_provider_test.mocks.dart';
 void main() {
   // Provide dummy values for Mockito
   provideDummy<ApiResult<RestaurantListResponse>>(
-    const ApiLoading<RestaurantListResponse>()
+    const ApiLoading<RestaurantListResponse>(),
   );
   group('RestaurantProvider Tests', () {
     late RestaurantProvider restaurantProvider;
@@ -35,46 +35,54 @@ void main() {
     });
 
     group('Successful API Fetch Tests', () {
-      test('should return restaurant list when API call is successful', () async {
-        // Arrange
-        final mockRestaurants = [
-          Restaurant(
-            id: '1',
-            name: 'Test Restaurant 1',
-            description: 'Test Description 1',
-            pictureId: 'test1',
-            city: 'Test City 1',
-            rating: 4.5,
-          ),
-          Restaurant(
-            id: '2',
-            name: 'Test Restaurant 2', 
-            description: 'Test Description 2',
-            pictureId: 'test2',
-            city: 'Test City 2',
-            rating: 4.0,
-          ),
-        ];
-        
-        final mockResponse = RestaurantListResponse(
-          error: false,
-          message: 'success',
-          count: 2,
-          restaurants: mockRestaurants,
-        );
+      test(
+        'should return restaurant list when API call is successful',
+        () async {
+          // Arrange
+          final mockRestaurants = [
+            Restaurant(
+              id: '1',
+              name: 'Test Restaurant 1',
+              description: 'Test Description 1',
+              pictureId: 'test1',
+              city: 'Test City 1',
+              rating: 4.5,
+            ),
+            Restaurant(
+              id: '2',
+              name: 'Test Restaurant 2',
+              description: 'Test Description 2',
+              pictureId: 'test2',
+              city: 'Test City 2',
+              rating: 4.0,
+            ),
+          ];
 
-        when(mockApiService.callApi<RestaurantListResponse>(any))
-            .thenAnswer((_) async => ApiSuccess(data: mockResponse));
+          final mockResponse = RestaurantListResponse(
+            error: false,
+            message: 'success',
+            count: 2,
+            restaurants: mockRestaurants,
+          );
 
-        // Act
-        await restaurantProvider.fetchRestaurants();
+          when(
+            mockApiService.callApi<RestaurantListResponse>(any),
+          ).thenAnswer((_) async => ApiSuccess(data: mockResponse));
 
-        // Assert
-        expect(restaurantProvider.result, isA<ApiSuccess<List<Restaurant>>>());
-        final result = restaurantProvider.result as ApiSuccess<List<Restaurant>>;
-        expect(result.data, equals(mockRestaurants));
-        expect(result.data.length, equals(2));
-      });
+          // Act
+          await restaurantProvider.fetchRestaurants();
+
+          // Assert
+          expect(
+            restaurantProvider.result,
+            isA<ApiSuccess<List<Restaurant>>>(),
+          );
+          final result =
+              restaurantProvider.result as ApiSuccess<List<Restaurant>>;
+          expect(result.data, equals(mockRestaurants));
+          expect(result.data.length, equals(2));
+        },
+      );
 
       test('should return ApiEmpty when restaurant list is empty', () async {
         // Arrange
@@ -85,8 +93,9 @@ void main() {
           restaurants: [],
         );
 
-        when(mockApiService.callApi<RestaurantListResponse>(any))
-            .thenAnswer((_) async => ApiSuccess(data: mockResponse));
+        when(
+          mockApiService.callApi<RestaurantListResponse>(any),
+        ).thenAnswer((_) async => ApiSuccess(data: mockResponse));
 
         // Act
         await restaurantProvider.fetchRestaurants();
@@ -102,47 +111,63 @@ void main() {
       test('should return ApiFailure when API call fails', () async {
         // Arrange
         const errorMessage = 'Network error occurred';
-        when(mockApiService.callApi<RestaurantListResponse>(any))
-            .thenAnswer((_) async => const ApiFailure(message: errorMessage));
+        when(
+          mockApiService.callApi<RestaurantListResponse>(any),
+        ).thenAnswer((_) async => const ApiFailure(message: errorMessage));
 
         // Act
         await restaurantProvider.fetchRestaurants();
 
         // Assert
         expect(restaurantProvider.result, isA<ApiFailure<List<Restaurant>>>());
-        final result = restaurantProvider.result as ApiFailure<List<Restaurant>>;
+        final result =
+            restaurantProvider.result as ApiFailure<List<Restaurant>>;
         expect(result.message, equals(errorMessage));
       });
 
-      test('should return generic error message when exception is thrown', () async {
-        // Arrange
-        when(mockApiService.callApi<RestaurantListResponse>(any))
-            .thenThrow(Exception('Unexpected error'));
+      test(
+        'should return generic error message when exception is thrown',
+        () async {
+          // Arrange
+          when(
+            mockApiService.callApi<RestaurantListResponse>(any),
+          ).thenThrow(Exception('Unexpected error'));
 
-        // Act
-        await restaurantProvider.fetchRestaurants();
+          // Act
+          await restaurantProvider.fetchRestaurants();
 
-        // Assert
-        expect(restaurantProvider.result, isA<ApiFailure<List<Restaurant>>>());
-        final result = restaurantProvider.result as ApiFailure<List<Restaurant>>;
-        expect(result.message, equals(
-          'Terjadi kesalahan saat mengambil data restaurant. Silakan coba lagi.'
-        ));
-      });
+          // Assert
+          expect(
+            restaurantProvider.result,
+            isA<ApiFailure<List<Restaurant>>>(),
+          );
+          final result =
+              restaurantProvider.result as ApiFailure<List<Restaurant>>;
+          expect(
+            result.message,
+            equals(
+              'Terjadi kesalahan saat mengambil data restaurant. Silakan coba lagi.',
+            ),
+          );
+        },
+      );
 
       test('should handle SocketException and return connection error', () async {
         // Arrange
-        when(mockApiService.callApi<RestaurantListResponse>(any))
-            .thenAnswer((_) async => const ApiFailure(
-              message: 'Tidak ada koneksi internet. Pastikan perangkat Anda terhubung ke internet dan coba lagi.'
-            ));
+        when(mockApiService.callApi<RestaurantListResponse>(any)).thenAnswer(
+          (_) async => const ApiFailure(
+            message:
+                'Tidak ada koneksi internet. Pastikan perangkat Anda terhubung ke internet dan coba lagi.',
+          ),
+        );
 
         // Act
         await restaurantProvider.fetchRestaurants();
 
         // Assert
         expect(restaurantProvider.result, isA<ApiFailure<List<Restaurant>>>());
-        final result = restaurantProvider.result as ApiFailure<List<Restaurant>>;
+        final result =
+            restaurantProvider.result as ApiFailure<List<Restaurant>>;
         expect(result.message, contains('koneksi internet'));
       });
     });
@@ -171,8 +196,9 @@ void main() {
           ],
         );
 
-        when(mockApiService.callApi<RestaurantListResponse>(any))
-            .thenAnswer((_) async => ApiSuccess(data: mockResponse));
+        when(
+          mockApiService.callApi<RestaurantListResponse>(any),
+        ).thenAnswer((_) async => ApiSuccess(data: mockResponse));
 
         // Act
         await restaurantProvider.fetchRestaurants();
@@ -195,12 +221,13 @@ void main() {
           restaurants: [],
         );
 
-        when(mockApiService.callApi<RestaurantListResponse>(any))
-            .thenAnswer((_) async {
-              // Add delay to simulate network call
-              await Future.delayed(const Duration(milliseconds: 10));
-              return ApiSuccess(data: mockResponse);
-            });
+        when(mockApiService.callApi<RestaurantListResponse>(any)).thenAnswer((
+          _,
+        ) async {
+          // Add delay to simulate network call
+          await Future.delayed(const Duration(milliseconds: 10));
+          return ApiSuccess(data: mockResponse);
+        });
 
         // Act
         await restaurantProvider.fetchRestaurants();

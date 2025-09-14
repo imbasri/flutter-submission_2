@@ -9,7 +9,8 @@ class RestaurantProvider extends ChangeNotifier {
   ApiResult<List<Restaurant>> _restaurantResult = const ApiLoading();
 
   // Constructor with optional injected ApiService for testing
-  RestaurantProvider({ApiService? apiService}) : _apiService = apiService ?? ApiService();
+  RestaurantProvider({ApiService? apiService})
+    : _apiService = apiService ?? ApiService();
 
   ApiResult<List<Restaurant>> get result => _restaurantResult;
   Future<void> fetchRestaurants() async {

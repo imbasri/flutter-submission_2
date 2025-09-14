@@ -127,7 +127,7 @@ void main() {
             'pictureId': 'test_picture_2',
             'city': 'Test City 2',
             'rating': 4.0,
-          }
+          },
         ],
       };
 

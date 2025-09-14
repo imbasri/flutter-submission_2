@@ -10,24 +10,24 @@ import 'package:flutter_pemula/data/model/restaurant.dart';
 class FakeFavoritesProvider extends FavoritesProvider {
   List<Restaurant> _testFavorites = [];
   FavoritesState _testState = FavoritesState.loaded;
-  
+
   void setTestFavorites(List<Restaurant> favorites) {
     _testFavorites = favorites;
   }
-  
+
   void setTestState(FavoritesState state) {
     _testState = state;
   }
-  
+
   @override
   List<Restaurant> get favorites => _testFavorites;
-  
+
   @override
   FavoritesState get state => _testState;
-  
+
   @override
   String get message => '';
-  
+
   @override
   Future<void> loadFavorites() async {
     // Do nothing for tests
@@ -37,17 +37,17 @@ class FakeFavoritesProvider extends FavoritesProvider {
 class FakeThemeProvider extends ThemeProvider {
   bool _testIsDarkMode = false;
   final bool _testIsInitialized = true;
-  
+
   void setTestDarkMode(bool isDark) {
     _testIsDarkMode = isDark;
   }
-  
+
   @override
   bool get isDarkMode => _testIsDarkMode;
-  
+
   @override
   bool get isInitialized => _testIsInitialized;
-  
+
   @override
   Future<void> toggleTheme() async {
     _testIsDarkMode = !_testIsDarkMode;
@@ -71,28 +71,31 @@ void main() {
           ChangeNotifierProvider<FavoritesProvider>.value(
             value: fakeFavoritesProvider,
           ),
-          ChangeNotifierProvider<ThemeProvider>.value(
-            value: fakeThemeProvider,
-          ),
+          ChangeNotifierProvider<ThemeProvider>.value(value: fakeThemeProvider),
         ],
-        child: const MaterialApp(
-          home: FavoritesPage(),
-        ),
+        child: const MaterialApp(home: FavoritesPage()),
       );
     }
 
-    testWidgets('should display empty state when no favorites', (WidgetTester tester) async {
+    testWidgets('should display empty state when no favorites', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
       // Assert
       expect(find.text('Belum Ada Restoran Favorit'), findsOneWidget);
-      expect(find.text('Tambahkan restoran ke favorit untuk melihatnya di sini'), findsOneWidget);
+      expect(
+        find.text('Tambahkan restoran ke favorit untuk melihatnya di sini'),
+        findsOneWidget,
+      );
       expect(find.byIcon(Icons.favorite_border), findsOneWidget);
     });
 
-    testWidgets('should display app bar with title and theme toggle', (WidgetTester tester) async {
+    testWidgets('should display app bar with title and theme toggle', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
@@ -102,11 +105,13 @@ void main() {
       expect(find.byIcon(Icons.dark_mode), findsOneWidget);
     });
 
-    testWidgets('should toggle theme when theme button is pressed', (WidgetTester tester) async {
+    testWidgets('should toggle theme when theme button is pressed', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
-      
+
       final initialIsDark = fakeThemeProvider.isDarkMode;
 
       // Act
@@ -117,7 +122,9 @@ void main() {
       expect(fakeThemeProvider.isDarkMode, !initialIsDark);
     });
 
-    testWidgets('should display loading indicator initially', (WidgetTester tester) async {
+    testWidgets('should display loading indicator initially', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       fakeFavoritesProvider.setTestState(FavoritesState.loading);
       await tester.pumpWidget(createTestWidget());

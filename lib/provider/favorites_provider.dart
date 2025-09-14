@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import '../data/db/database_helper.dart';
 import '../data/model/restaurant.dart';
 
-enum FavoritesState {
-  loading,
-  loaded,
-  error,
-}
+enum FavoritesState { loading, loaded, error }
 
 class FavoritesProvider extends ChangeNotifier {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
-  
+
   List<Restaurant> _favorites = [];
   FavoritesState _state = FavoritesState.loading;
   String _message = '';
-  
+
   final Map<String, bool> _favoriteStatus = {};
 
   List<Restaurant> get favorites => _favorites;
@@ -31,13 +27,13 @@ class FavoritesProvider extends ChangeNotifier {
       notifyListeners();
 
       _favorites = await _databaseHelper.getAllFavorites();
-      
+
       _favoriteStatus.clear();
       _favoriteStatus.clear();
       for (final restaurant in _favorites) {
         _favoriteStatus[restaurant.id] = true;
       }
-      
+
       _state = FavoritesState.loaded;
       _message = _favorites.isEmpty ? 'Tidak ada restoran favorit' : '';
     } catch (e) {
@@ -83,7 +79,7 @@ class FavoritesProvider extends ChangeNotifier {
 
   Future<void> toggleFavorite(Restaurant restaurant) async {
     final currentStatus = _favoriteStatus[restaurant.id] ?? false;
-    
+
     if (currentStatus) {
       await removeFromFavorites(restaurant.id);
     } else {

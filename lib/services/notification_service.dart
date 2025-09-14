@@ -43,25 +43,23 @@ class NotificationService {
 
   static const String _channelId = 'daily_reminder';
   static const String _channelName = 'Daily Reminder';
-  static const String _channelDescription = 'Daily lunch reminder notifications';
+  static const String _channelDescription =
+      'Daily lunch reminder notifications';
   static const int _notificationId = 0;
   static const String dailyReminderTask = 'dailyReminderTask';
-  
+
   // Store reminder time for scheduling
   static TimeOfDay _reminderTime = const TimeOfDay(hour: 11, minute: 0);
 
   Future<void> initialize() async {
     // Inisialisasi data timezone
     tz.initializeTimeZones();
-    
+
     // Inisialisasi Workmanager untuk tugas latar belakang
     if (!kIsWeb) {
-      await Workmanager().initialize(
-        callbackDispatcher,
-        isInDebugMode: false,
-      );
+      await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
     }
-    
+
     // Pengaturan inisialisasi Android
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -69,17 +67,17 @@ class NotificationService {
     // Pengaturan inisialisasi iOS
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
 
     // Inisialisasi plugin
     const InitializationSettings initializationSettings =
         InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsIOS,
+        );
 
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -94,8 +92,10 @@ class NotificationService {
 
   Future<void> _requestPermissions() async {
     final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-        _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>();
+        _flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
 
     if (androidImplementation != null) {
       await androidImplementation.requestNotificationsPermission();
@@ -103,8 +103,10 @@ class NotificationService {
     }
 
     final IOSFlutterLocalNotificationsPlugin? iosImplementation =
-        _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>();
+        _flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin
+            >();
 
     if (iosImplementation != null) {
       await iosImplementation.requestPermissions(
@@ -133,16 +135,16 @@ class NotificationService {
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsIOS,
+        );
 
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
@@ -163,12 +165,12 @@ class NotificationService {
       dailyReminderTask,
       frequency: const Duration(hours: 24),
       initialDelay: _getInitialDelay(),
-      constraints: Constraints(
-        networkType: NetworkType.connected,
-      ),
+      constraints: Constraints(networkType: NetworkType.connected),
     );
 
-    debugPrint('Daily reminder scheduled with Workmanager for ${_reminderTime.hour}:${_reminderTime.minute.toString().padLeft(2, '0')}');
+    debugPrint(
+      'Daily reminder scheduled with Workmanager for ${_reminderTime.hour}:${_reminderTime.minute.toString().padLeft(2, '0')}',
+    );
   }
 
   static void setReminderTime(TimeOfDay time) {
@@ -177,8 +179,15 @@ class NotificationService {
 
   Duration _getInitialDelay() {
     final now = DateTime.now();
-    final scheduledTime = DateTime(now.year, now.month, now.day, _reminderTime.hour, _reminderTime.minute, 0);
-    
+    final scheduledTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      _reminderTime.hour,
+      _reminderTime.minute,
+      0,
+    );
+
     if (scheduledTime.isBefore(now)) {
       // If scheduled time has passed today, schedule for tomorrow
       return scheduledTime.add(const Duration(days: 1)).difference(now);
@@ -212,7 +221,7 @@ class NotificationService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final restaurants = RestaurantListResponse.fromJson(data);
-        
+
         if (restaurants.restaurants.isNotEmpty) {
           final random = Random();
           final randomIndex = random.nextInt(restaurants.restaurants.length);
@@ -225,38 +234,40 @@ class NotificationService {
     return null;
   }
 
-  static Future<void> _showNotificationWithRestaurant(Restaurant restaurant) async {
+  static Future<void> _showNotificationWithRestaurant(
+    Restaurant restaurant,
+  ) async {
     final FlutterLocalNotificationsPlugin notifications =
         FlutterLocalNotificationsPlugin();
 
-    final String notificationBody = 
+    final String notificationBody =
         '${restaurant.name} di ${restaurant.city} - Rating: ${restaurant.rating}⭐';
 
     final NotificationDetails notificationDetails = NotificationDetails(
-        android: AndroidNotificationDetails(
-          _channelId,
-          _channelName,
-          channelDescription: 'Daily restaurant recommendation',
-          importance: Importance.high,
-          priority: Priority.high,
-          icon: '@mipmap/ic_launcher',
-          largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
-          color: const Color(0xFF1976D2),
-          enableVibration: true,
-          playSound: true,
-          styleInformation: BigTextStyleInformation(
-            notificationBody,
-            contentTitle: 'Rekomendasi Restoran Hari Ini 🍽️',
-          ),
+      android: AndroidNotificationDetails(
+        _channelId,
+        _channelName,
+        channelDescription: 'Daily restaurant recommendation',
+        importance: Importance.high,
+        priority: Priority.high,
+        icon: '@mipmap/ic_launcher',
+        largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+        color: const Color(0xFF1976D2),
+        enableVibration: true,
+        playSound: true,
+        styleInformation: BigTextStyleInformation(
+          notificationBody,
+          contentTitle: 'Rekomendasi Restoran Hari Ini 🍽️',
         ),
-        iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-          sound: 'default',
-          subtitle: 'Restaurant App Recommendation',
-        ),
-      );
+      ),
+      iOS: const DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        sound: 'default',
+        subtitle: 'Restaurant App Recommendation',
+      ),
+    );
 
     await notifications.show(
       0,
@@ -320,9 +331,10 @@ class NotificationService {
 
     final List<PendingNotificationRequest> pendingNotifications =
         await _flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    
-    return pendingNotifications.any((notification) => 
-        notification.id == _notificationId);
+
+    return pendingNotifications.any(
+      (notification) => notification.id == _notificationId,
+    );
   }
 
   Future<void> showTestNotification() async {

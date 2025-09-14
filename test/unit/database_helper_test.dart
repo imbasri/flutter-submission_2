@@ -24,7 +24,7 @@ void main() {
         city: 'Test City',
         rating: 4.5,
       );
-      
+
       // Clear the database before each test
       final favorites = await databaseHelper.getAllFavorites();
       for (final restaurant in favorites) {
@@ -44,7 +44,7 @@ void main() {
       // Arrange & Act
       await databaseHelper.insertFavorite(testRestaurant);
       final favorites = await databaseHelper.getAllFavorites();
-      
+
       // Assert
       expect(favorites, isNotEmpty);
       expect(favorites.first.id, equals(testRestaurant.id));
@@ -54,11 +54,11 @@ void main() {
     test('should check if restaurant is favorite', () async {
       // Arrange
       await databaseHelper.insertFavorite(testRestaurant);
-      
+
       // Act
       final isFavorite = await databaseHelper.isFavorite(testRestaurant.id);
       final isNotFavorite = await databaseHelper.isFavorite('non_existent_id');
-      
+
       // Assert
       expect(isFavorite, isTrue);
       expect(isNotFavorite, isFalse);
@@ -67,11 +67,11 @@ void main() {
     test('should delete favorite restaurant', () async {
       // Arrange
       await databaseHelper.insertFavorite(testRestaurant);
-      
+
       // Act
       await databaseHelper.deleteFavorite(testRestaurant.id);
       final isFavorite = await databaseHelper.isFavorite(testRestaurant.id);
-      
+
       // Assert
       expect(isFavorite, isFalse);
     });
@@ -91,21 +91,26 @@ void main() {
       await databaseHelper.insertFavorite(testRestaurant);
       await databaseHelper.insertFavorite(restaurant2);
       final favorites = await databaseHelper.getAllFavorites();
-      
+
       // Assert
       expect(favorites.length, equals(2));
       expect(favorites.map((r) => r.id), contains(testRestaurant.id));
       expect(favorites.map((r) => r.id), contains(restaurant2.id));
     });
 
-    test('should not duplicate favorites when inserting same restaurant', () async {
-      // Arrange & Act
-      await databaseHelper.insertFavorite(testRestaurant);
-      await databaseHelper.insertFavorite(testRestaurant); // Insert same restaurant
-      final favorites = await databaseHelper.getAllFavorites();
-      
-      // Assert
-      expect(favorites.length, equals(1));
-    });
+    test(
+      'should not duplicate favorites when inserting same restaurant',
+      () async {
+        // Arrange & Act
+        await databaseHelper.insertFavorite(testRestaurant);
+        await databaseHelper.insertFavorite(
+          testRestaurant,
+        ); // Insert same restaurant
+        final favorites = await databaseHelper.getAllFavorites();
+
+        // Assert
+        expect(favorites.length, equals(1));
+      },
+    );
   });
 }

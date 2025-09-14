@@ -50,22 +50,6 @@ class RestaurantDetail {
     );
   }
 
-  // Convert RestaurantDetail to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'city': city,
-      'address': address,
-      'pictureId': pictureId,
-      'categories': categories.map((e) => e.toJson()).toList(),
-      'menus': menus.toJson(),
-      'rating': rating,
-      'customerReviews': customerReviews.map((e) => e.toJson()).toList(),
-    };
-  }
-
   String get pictureUrl => ConstantData.getMediumImageUrl(pictureId);
 
   // Convert RestaurantDetail to Restaurant for favorites

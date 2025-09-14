@@ -11,7 +11,7 @@ class DatabaseHelper {
   static const String _databaseName = 'restaurant_database.db';
   static const int _databaseVersion = 1;
   static const String _favoritesKey = 'favorite_restaurants';
-  
+
   // Definisi tabel dan kolom
   static const String tableFavorites = 'favorites';
   static const String columnId = 'id';
@@ -31,17 +31,18 @@ class DatabaseHelper {
       // For web, we'll use SharedPreferences instead
       return null;
     }
-    
+
     if (_database != null) return _database!;
-    
+
     // Initialize sqflite_ffi for desktop platforms
-    if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-        defaultTargetPlatform == TargetPlatform.linux ||
-        defaultTargetPlatform == TargetPlatform.macOS)) {
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
     }
-    
+
     _database = await _initDatabase();
     return _database!;
   }
@@ -74,7 +75,7 @@ class DatabaseHelper {
       // Use SharedPreferences for web
       final prefs = await SharedPreferences.getInstance();
       final favorites = await getAllFavorites();
-      
+
       // Check if restaurant is already in favorites
       final existingIndex = favorites.indexWhere((r) => r.id == restaurant.id);
       if (existingIndex == -1) {
@@ -101,7 +102,7 @@ class DatabaseHelper {
       // Use SharedPreferences for web
       final prefs = await SharedPreferences.getInstance();
       final favorites = await getAllFavorites();
-      
+
       favorites.removeWhere((r) => r.id == restaurantId);
       final favoritesJson = favorites.map((r) => r.toJson()).toList();
       await prefs.setString(_favoritesKey, jsonEncode(favoritesJson));
@@ -124,9 +125,9 @@ class DatabaseHelper {
       // Use SharedPreferences for web
       final prefs = await SharedPreferences.getInstance();
       final favoritesString = prefs.getString(_favoritesKey);
-      
+
       if (favoritesString == null) return [];
-      
+
       try {
         final List<dynamic> favoritesJson = jsonDecode(favoritesString);
         return favoritesJson.map((json) => Restaurant.fromJson(json)).toList();
@@ -137,9 +138,9 @@ class DatabaseHelper {
       // Use SQLite for mobile/desktop
       Database? db = await database;
       if (db == null) return [];
-      
+
       final List<Map<String, dynamic>> maps = await db.query(tableFavorites);
-      
+
       return List.generate(maps.length, (i) {
         return Restaurant.fromJson(maps[i]);
       });
@@ -156,7 +157,7 @@ class DatabaseHelper {
       // Use SQLite for mobile/desktop
       Database? db = await database;
       if (db == null) return false;
-      
+
       final List<Map<String, dynamic>> maps = await db.query(
         tableFavorites,
         where: '$columnId = ?',
@@ -180,13 +181,13 @@ class DatabaseHelper {
       // Use SQLite for mobile/desktop
       Database? db = await database;
       if (db == null) return null;
-      
+
       final List<Map<String, dynamic>> maps = await db.query(
         tableFavorites,
         where: '$columnId = ?',
         whereArgs: [restaurantId],
       );
-      
+
       if (maps.isNotEmpty) {
         return Restaurant.fromJson(maps.first);
       }

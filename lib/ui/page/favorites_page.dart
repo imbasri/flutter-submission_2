@@ -19,10 +19,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<FavoritesProvider>(
-        context,
-        listen: false,
-      ).loadFavorites();
+      Provider.of<FavoritesProvider>(context, listen: false).loadFavorites();
     });
   }
 
@@ -65,11 +62,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.favorite_border,
-                        size: 64,
-                        color: Colors.grey,
-                      ),
+                      Icon(Icons.favorite_border, size: 64, color: Colors.grey),
                       SizedBox(height: 16),
                       Text(
                         'Belum Ada Restoran Favorit',
@@ -83,10 +76,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       Text(
                         'Tambahkan restoran ke favorit untuk melihatnya di sini',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                     ],
                   ),
@@ -112,9 +102,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DetailPage(
-                              restaurantId: restaurant.id,
-                            ),
+                            builder: (context) =>
+                                DetailPage(restaurantId: restaurant.id),
                           ),
                         ).then((_) {
                           favoritesProvider.loadFavorites();

@@ -15,7 +15,7 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   OverlayEntry? _overlayEntry;
-  
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +37,7 @@ class _DetailPageState extends State<DetailPage> {
     if (rating >= 3.0) return Colors.deepOrange;
     return Colors.red;
   }
+
   String _getRatingText(double rating) {
     if (rating >= 4.5) return 'Excellent';
     if (rating >= 4.0) return 'Very Good';
@@ -148,7 +149,12 @@ class _DetailPageState extends State<DetailPage> {
                     ],
                   ),
                 ),
-                ApiSuccess(:final data) => _buildDetailContent(context, provider, isWeb, data),
+                ApiSuccess(:final data) => _buildDetailContent(
+                  context,
+                  provider,
+                  isWeb,
+                  data,
+                ),
                 ApiEmpty() => const Center(child: Text('No data')),
               };
             },
@@ -161,15 +167,17 @@ class _DetailPageState extends State<DetailPage> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             favoritesProvider.checkFavoriteStatus(widget.restaurantId);
           });
-          
-          final isFavorite = favoritesProvider.isFavoriteSync(widget.restaurantId);
-          
+
+          final isFavorite = favoritesProvider.isFavoriteSync(
+            widget.restaurantId,
+          );
+
           return FloatingActionButton(
             onPressed: () async {
               if (detailProvider.result case ApiSuccess(:final data)) {
                 final restaurant = data.toRestaurant();
                 await favoritesProvider.toggleFavorite(restaurant);
-                
+
                 // Show snackbar with better styling
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -182,16 +190,16 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            isFavorite 
-                                ? 'Dihapus dari favorit' 
+                            isFavorite
+                                ? 'Dihapus dari favorit'
                                 : 'Ditambahkan ke favorit',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
-                      backgroundColor: isFavorite ? Colors.grey[700] : Colors.red,
+                      backgroundColor: isFavorite
+                          ? Colors.grey[700]
+                          : Colors.red,
                       duration: const Duration(seconds: 2),
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(
@@ -216,9 +224,14 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget _buildDetailContent(BuildContext context, DetailProvider provider, bool isWeb, data) {
+  Widget _buildDetailContent(
+    BuildContext context,
+    DetailProvider provider,
+    bool isWeb,
+    data,
+  ) {
     final restaurant = data;
-    
+
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
@@ -304,7 +317,11 @@ class _DetailPageState extends State<DetailPage> {
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            const Icon(Icons.location_on, color: Colors.white, size: 16),
+                            const Icon(
+                              Icons.location_on,
+                              color: Colors.white,
+                              size: 16,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               '${restaurant.city}',
@@ -370,13 +387,15 @@ class _DetailPageState extends State<DetailPage> {
                             const SizedBox(width: 12),
                             Text(
                               '${restaurant.rating}/5.0',
-                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 8),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: _getRatingColor(restaurant.rating),
                                 borderRadius: BorderRadius.circular(12),
@@ -393,7 +412,7 @@ class _DetailPageState extends State<DetailPage> {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Address
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,9 +433,8 @@ class _DetailPageState extends State<DetailPage> {
                             Expanded(
                               child: Text(
                                 '${restaurant.address}, ${restaurant.city}',
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w500),
                               ),
                             ),
                           ],
@@ -425,9 +443,9 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Description Card
                 Card(
                   elevation: 4,
@@ -448,27 +466,26 @@ class _DetailPageState extends State<DetailPage> {
                             const SizedBox(width: 8),
                             Text(
                               'Deskripsi',
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                         const SizedBox(height: 12),
                         Text(
                           restaurant.description,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            height: 1.6,
-                          ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(height: 1.6),
                           textAlign: TextAlign.justify,
                         ),
                       ],
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Categories
                 if (restaurant.categories.isNotEmpty) ...[
                   Card(
@@ -490,9 +507,8 @@ class _DetailPageState extends State<DetailPage> {
                               const SizedBox(width: 8),
                               Text(
                                 'Kategori',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
@@ -503,12 +519,19 @@ class _DetailPageState extends State<DetailPage> {
                             children: [
                               ...restaurant.categories.map((category) {
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                                    color: Theme.of(
+                                      context,
+                                    ).primaryColor.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                                      color: Theme.of(
+                                        context,
+                                      ).primaryColor.withValues(alpha: 0.3),
                                     ),
                                   ),
                                   child: Text(
@@ -528,12 +551,12 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   const SizedBox(height: 16),
                 ],
-                
+
                 // Menu Section
                 _buildMenuSection(restaurant),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Reviews Section
                 _buildReviewSection(context, restaurant, isWeb),
               ],
@@ -547,9 +570,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget _buildMenuSection(restaurant) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -571,7 +592,7 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Foods
             if (restaurant.menus.foods.isNotEmpty) ...[
               Text(
@@ -588,7 +609,10 @@ class _DetailPageState extends State<DetailPage> {
                 children: [
                   ...restaurant.menus.foods.map((food) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.orange.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
@@ -609,7 +633,7 @@ class _DetailPageState extends State<DetailPage> {
               ),
               const SizedBox(height: 16),
             ],
-            
+
             // Drinks
             if (restaurant.menus.drinks.isNotEmpty) ...[
               Text(
@@ -626,7 +650,10 @@ class _DetailPageState extends State<DetailPage> {
                 children: [
                   ...restaurant.menus.drinks.map((drink) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.blue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
@@ -655,9 +682,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget _buildReviewSection(BuildContext context, restaurant, bool isWeb) {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -693,7 +718,9 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ).then((_) {
                       // Refresh detail when coming back from review form
-                      context.read<DetailProvider>().fetchRestaurantDetail(restaurant.id);
+                      context.read<DetailProvider>().fetchRestaurantDetail(
+                        restaurant.id,
+                      );
                       _showTopSnackBar(context, isWeb);
                     });
                   },

@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                 final screenWidth = MediaQuery.of(context).size.width;
                 final isSmallScreen = screenHeight < 700 || screenWidth < 400;
                 final headerHeight = isSmallScreen ? 180.0 : 220.0;
-                
+
                 return Container(
                   height: headerHeight,
                   decoration: BoxDecoration(
@@ -222,10 +222,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
-                      isSmallScreen ? 12 : 16, 
-                      isSmallScreen ? 16 : 20, 
-                      isSmallScreen ? 12 : 16, 
-                      isSmallScreen ? 12 : 16
+                      isSmallScreen ? 12 : 16,
+                      isSmallScreen ? 16 : 20,
+                      isSmallScreen ? 12 : 16,
+                      isSmallScreen ? 12 : 16,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,15 +292,18 @@ class _HomePageState extends State<HomePage> {
                               ),
                           ],
                         ),
-                        
+
                         SizedBox(height: isSmallScreen ? 12 : 16),
-                        
+
                         Wrap(
                           spacing: 8,
                           runSpacing: 6,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(16),
@@ -309,7 +312,9 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
-                                    themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                                    themeProvider.isDarkMode
+                                        ? Icons.dark_mode
+                                        : Icons.light_mode,
                                     size: 14,
                                     color: Colors.white70,
                                   ),
@@ -325,10 +330,14 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                            
-                            if (reminderProvider.isInitialized && reminderProvider.isReminderEnabled)
+
+                            if (reminderProvider.isInitialized &&
+                                reminderProvider.isReminderEnabled)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 6,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.green.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(16),
@@ -357,10 +366,13 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
-                              
+
                             if (!isSmallScreen)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 6,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(16),
@@ -393,7 +405,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            
+
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -401,7 +413,10 @@ class _HomePageState extends State<HomePage> {
                   ListTile(
                     leading: const Icon(Icons.home, size: 22),
                     title: const Text('Beranda'),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 4,
+                    ),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -409,24 +424,34 @@ class _HomePageState extends State<HomePage> {
                   ListTile(
                     leading: const Icon(Icons.search, size: 22),
                     title: const Text('Cari Restoran'),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 4,
+                    ),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SearchPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const SearchPage(),
+                        ),
                       );
                     },
                   ),
                   ListTile(
                     leading: const Icon(Icons.favorite, size: 22),
                     title: const Text('Restoran Favorit'),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 4,
+                    ),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const FavoritesPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const FavoritesPage(),
+                        ),
                       );
                     },
                   ),
@@ -434,12 +459,17 @@ class _HomePageState extends State<HomePage> {
                   ListTile(
                     leading: const Icon(Icons.settings, size: 22),
                     title: const Text('Pengaturan'),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 4,
+                    ),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SettingsPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ),
                       );
                     },
                   ),
@@ -447,17 +477,20 @@ class _HomePageState extends State<HomePage> {
                     builder: (context, themeProvider, child) {
                       return ListTile(
                         leading: Icon(
-                          themeProvider.isDarkMode 
-                              ? Icons.light_mode 
+                          themeProvider.isDarkMode
+                              ? Icons.light_mode
                               : Icons.dark_mode,
                           size: 22,
                         ),
                         title: Text(
-                          themeProvider.isDarkMode 
-                              ? 'Beralih ke Tema Terang' 
+                          themeProvider.isDarkMode
+                              ? 'Beralih ke Tema Terang'
                               : 'Beralih ke Tema Gelap',
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 4,
+                        ),
                         onTap: () {
                           themeProvider.toggleTheme();
                           Navigator.pop(context);
@@ -478,14 +511,16 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            
+
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
                 border: Border(
                   top: BorderSide(
-                    color: Theme.of(context).dividerColor.withValues(alpha: 0.2),
+                    color: Theme.of(
+                      context,
+                    ).dividerColor.withValues(alpha: 0.2),
                     width: 0.5,
                   ),
                 ),
